@@ -19,16 +19,19 @@ export const UserProvider = ({ children }) => {
                 body: JSON.stringify({ email, hashed_password: password }),
             });
         
+            const result = await response.json();
             if (response.ok) {
                 // Login successful, do something
-                const result = await response.json();
+                
                 console.log('Login successful', result);
                 setCookies('token', result.access_token); // your token
-                setCookies('email', email)
+                setCookies('email', email);
+                setCookies('id', result.id);
+                setCookies('name', result.name);
                 navigate('/home');
             } else {
                 // Login failed, handle the error
-                console.log('Login failed');
+                console.log('Login failed', result);
                 return false;
             }
         } catch (error) {
@@ -46,17 +49,18 @@ export const UserProvider = ({ children }) => {
                 },
                 body: JSON.stringify({ name, email, hashed_password: password }),
             });
-        
+            const result = await response.json();
             if (response.ok) {
-                // Login successful, do something
-                const result = await response.json();
+                // Signup successful, do something                
                 console.log('Signup successful', result);
                 setCookies('token', result.access_token); // your token
                 setCookies('email', email)
+                setCookies('id', result.id);
+                setCookies('name', name);
                 navigate('/home');
             } else {
-                // Login failed, handle the error
-                console.log('Login failed');
+                // Signup failed, handle the error
+                console.log('Signup failed', result);
                 return false;
             }
         } catch (error) {
