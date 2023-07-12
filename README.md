@@ -1,7 +1,15 @@
 # CS348-Project-Web
 CS 348 Project: Introduction to Database Management
 
+This is the frontend for our CS 348 Project named Nutritrack.
+
+## Current Features (C5)
+- **[R6]** View all food items on the dashboard at `locahost:3000/`, implemented in `/pages/Dashboard.js`
+- **[R7]** View and create food logs at `localhost:3000/foodlogs`, implemented in `/pages/FoodLogs.js`
+- **[R10]** Users can login and register at `localhost:3000/signup`, `locahost:3000/login`. This is implemented through `/pages/Signup.js`, `/pages/Login.js`, Auth hooks in `/hooks`, and some modifications to `App.js`
+
 ## Development
+This app was bootstrapped using create-react-app.
 ### Dependencies
 Ensure that you have Node installed prior to beginning development.
 
