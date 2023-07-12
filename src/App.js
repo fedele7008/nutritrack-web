@@ -30,12 +30,12 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/restaurants" element={<Restaurants />} />
-              <Route path="/foodlogs" element={<FoodLogs />} />
+              
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
               <Route element={ <ProtectRoutes /> }> 
                 {/* These routes are protected by authentication */}
-                <Route path='/home' element={ <Dashboard /> } />
+                <Route path="/foodlogs" element={<FoodLogs />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

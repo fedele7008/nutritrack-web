@@ -28,7 +28,7 @@ export const UserProvider = ({ children }) => {
                 setCookies('email', email);
                 setCookies('id', result.id);
                 setCookies('name', result.name);
-                navigate('/home');
+                navigate('/foodlogs');
             } else {
                 // Login failed, handle the error
                 console.log('Login failed', result);

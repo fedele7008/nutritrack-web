@@ -20,6 +20,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Toolbar } from "@mui/material";
+import {useAuth} from "../hooks/Auth";
 
 const modalBoxStyle = {
   position: "absolute",
@@ -38,6 +39,7 @@ function FoodLogs() {
   const [foodItems, setFoodItems] = useState([]);
   const [open, setOpen] = useState(false);
   const [formInput, setFormInput] = useState({ foodItem: "", date: "" });
+  const {cookies} = useAuth();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -50,7 +52,7 @@ function FoodLogs() {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    let data = { ...formInput, user_id: "1" };
+    let data = { ...formInput, user_id: cookies.id };
     fetch("http://localhost:6608/log/", {
       method: "POST",
       body: JSON.stringify(data),
