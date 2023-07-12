@@ -13,6 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink } from "react-router-dom";
+import {useAuth} from "../hooks/Auth";
 
 const pages = [
   { name: "Restaurants", link: "/restaurants" },
@@ -23,6 +24,8 @@ const settings = ["Profile", "Account", "Logout"];
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const {cookies, logout} = useAuth();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -126,7 +129,7 @@ function NavBar() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          {cookies.token ? <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -148,12 +151,29 @@ function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}>
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={logout}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box> : 
+          <NavLink to="/login" style={{ textDecoration: "none" }}>
+          <Typography
+            variant="body1"
+            noWrap
+            component="a"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              // fontFamily: "monospace",
+              fontWeight: 700,
+              // letterSpacing: ".3rem",
+              // color: "inherit",
+            }}>
+            Login
+          </Typography>
+        </NavLink>
+        }
         </Toolbar>
       </Container>
     </AppBar>
