@@ -11,17 +11,17 @@ import Whatshot from '@mui/icons-material/Whatshot';
 export default function MultiActionAreaCard({foodItem, imageUrl}) {
     console.log(foodItem)
   return (
-    <Card sx={{ width: 345 }}>
+    <Card sx={{ width: 345, m: 1.5 }}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="140"
           image={imageUrl}
-          alt={foodItem.name}
+          alt={foodItem.food_name}
         />
         <CardContent>
         <Typography gutterBottom variant="h5">
-            {foodItem.name}
+            {foodItem.food_name}
         </Typography>
           
           <Grid container spacing={0} justifyContent="space-between">
