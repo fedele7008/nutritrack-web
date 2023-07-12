@@ -4,6 +4,12 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FoodCard from "../components/FoodCard";
 
+const imageUrl = {
+  1: "https://www.owensoundtourism.ca/uploads/images/business-directory/burger-king.jpg",
+  2: "https://www.foodandwine.com/thmb/8N5jLutuTK4TDzpDkhMfdaHLZxI=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/McDonalds-Hacks-Menu-FT-1-BLOG0122-4ac9d62f6c9143be8da3d0a8553348b0.jpg",
+  3: "https://www.nrn.com/sites/nrn.com/files/styles/article_featured_retina/public/Starbucks-storefront.jpeg?itok=OZXeV_KK"
+}
+
 const Dashboard = () => {
   const [foodItems, setFoodItems] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
@@ -176,8 +182,7 @@ const Dashboard = () => {
             margin: "auto"
           }}>
           {foodItems.map(food => {
-            return <FoodCard key={food.id} foodItem={food} imageUrl={food.restaurant_id === 1 ? "https://www.foodandwine.com/thmb/8N5jLutuTK4TDzpDkhMfdaHLZxI=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/McDonalds-Hacks-Menu-FT-1-BLOG0122-4ac9d62f6c9143be8da3d0a8553348b0.jpg" :
-          (food.restaurant_id === 2 ? "https://www.owensoundtourism.ca/uploads/images/business-directory/burger-king.jpg" : "")} sx={{
+            return <FoodCard key={food.id} foodItem={food} imageUrl={food.restaurant_id in imageUrl ? imageUrl[food.restaurant_id]: ""} sx={{
               p: 10,
               m: 10,
             }} />
