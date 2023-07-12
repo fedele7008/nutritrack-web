@@ -129,7 +129,7 @@ function NavBar() {
             ))}
           </Box>
 
-          {(cookies && cookies.token) ? <Box sx={{ flexGrow: 0 }}>
+          {cookies.token ? <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
