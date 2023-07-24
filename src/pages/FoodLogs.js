@@ -20,7 +20,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Toolbar } from "@mui/material";
-import {useAuth} from "../hooks/Auth";
+import { useAuth } from "../hooks/Auth";
+import UserChart from "../components/UserChart";
 
 const modalBoxStyle = {
   position: "absolute",
@@ -37,9 +38,12 @@ const modalBoxStyle = {
 function FoodLogs() {
   const [foodLogs, setFoodLogs] = useState([]);
   const [foodItems, setFoodItems] = useState([]);
+  const [foodStatLabels, setFoodStatLabels] = useState([]);
+  const [calorieDatasets, setCalorieDatasets] = useState([]);
+  const [foodStatDatasets, setFoodStatDatasets] = useState([]);
   const [open, setOpen] = useState(false);
   const [formInput, setFormInput] = useState({ foodItem: "", date: "" });
-  const {cookies} = useAuth();
+  const { cookies } = useAuth();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -104,6 +108,40 @@ function FoodLogs() {
     setFoodLogs(foodLogDates);
   };
 
+  const setOrganizedFoodStats = (foodStats) => {
+    let labels = [];
+    let calorieCounts = {
+      label: "Calories",
+      data: [],
+      backgroundColor: "#303F9F",
+    };
+    let carbCounts = {
+      label: "Carbohydrates",
+      data: [],
+      backgroundColor: "#303F9F",
+    };
+    let fatCounts = { label: "Fat", data: [], backgroundColor: "#303F9F" };
+    let fiberCounts = { label: "Fiber", data: [], backgroundColor: "#303F9F" };
+    let proteinCounts = {
+      label: "Protein",
+      data: [],
+      backgroundColor: "#303F9F",
+    };
+    foodStats.forEach((foodStat) => {
+      const date = new Date(foodStat.date).toDateString();
+      labels.push(date);
+      calorieCounts.data.push(foodStat.calorieCount);
+      carbCounts.data.push(foodStat.carbCount);
+      fatCounts.data.push(foodStat.fatCount);
+      fiberCounts.data.push(foodStat.fiberCount);
+      proteinCounts.data.push(foodStat.proteinCount);
+    });
+    setFoodStatLabels(labels);
+    const datasets = [carbCounts, fatCounts, fiberCounts, proteinCounts];
+    setCalorieDatasets([calorieCounts]);
+    setFoodStatDatasets(datasets);
+  };
+
   const fetchFoodLogs = () => {
     fetch("http://127.0.0.1:6608/log/")
       .then((response) => {
@@ -113,13 +151,28 @@ function FoodLogs() {
         setOrganizedFoodLogs(data);
       });
   };
+
+  const fetchUserStats = () => {
+    fetch("http://127.0.0.1:6608/log/stats")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setOrganizedFoodStats(data);
+      });
+  };
+
   useEffect(() => {
     fetchFoodLogs();
     fetchFoodItems();
+    fetchUserStats();
   }, []);
 
   return (
     <div>
+      <UserChart labels={foodStatLabels} datasets={foodStatDatasets} />
+      <UserChart labels={foodStatLabels} datasets={calorieDatasets} />
       <Toolbar>
         <Typography variant="h5">My Logs</Typography>
         <Button
