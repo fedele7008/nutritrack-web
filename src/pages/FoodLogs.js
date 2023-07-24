@@ -122,11 +122,12 @@ function FoodLogs() {
     <div>
       <Toolbar>
         <Typography variant="h5">My Logs</Typography>
-        <Button
-          sx={{ m: 3, marginLeft: "auto" }}
+        <Button sx={{ m: 3, marginLeft: "auto", borderRadius: 15, backgroundColor: "#15603C",
+        "&:hover": {backgroundColor: "#0E4028",},
+       }}   
           variant="contained"
           onClick={handleClickOpen}>
-          Add new log
+          Set log
         </Button>
       </Toolbar>
 
