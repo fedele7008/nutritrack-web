@@ -4,6 +4,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FoodCard from "../components/FoodCard";
 import GoalProgress from "../components/GoalProgress";
+import {useAuth} from "../hooks/Auth";
 
 const imageUrl = {
   1: "https://www.owensoundtourism.ca/uploads/images/business-directory/burger-king.jpg",
@@ -26,9 +27,14 @@ const Dashboard = () => {
   const [newGoalName, setGoalName] = useState([]);
   const [newGoalValue, setNewGoalValue] = useState([]);
   const [selectedGoalType, setSelectedGoalType] = useState([]);
-  const userId = 17; // Replace with the actual user ID
+  const {cookies} = useAuth();
+  const userId = 17;
 
   const handleAddGoal = (goalType) => {
+    if (isNaN(userId)) {
+      alert("Please sign in to set up your own goals.");
+      return;
+    }
     setSelectedGoalType(goalType);
     setOpenDialog(true);
   };
@@ -56,7 +62,7 @@ const Dashboard = () => {
     };
   
     // Make a POST request to save the goal to the backend
-    fetch("http://127.0.0.1:6608/goal", {
+    fetch("http://localhost:6608/goal/", {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {
@@ -70,6 +76,7 @@ const Dashboard = () => {
   
         // After saving the goal, close the dialog
         handleCloseDialog();
+        fetchGoalData();
       })
       .catch((error) => {
         console.error("Error saving goal:", error);
@@ -109,7 +116,7 @@ const Dashboard = () => {
 
   const fetchGoalData = () => {
     // Fetch the goal table from the backend
-    fetch(`http://127.0.0.1:6608/goal/user/${userId}`)
+    fetch(`http://localhost:6608/goal/user/${userId}`)
     .then((response) => {
       return response.json();
     })
@@ -120,7 +127,7 @@ const Dashboard = () => {
 
   const fetchConsumptionData = () => {
     // Fetch the goal table from the backend
-    fetch(`http://127.0.0.1:6608/log/consumption/${userId}`)
+    fetch(`http://localhost:6608/log/consumption/${userId}`)
     .then((response) => {
       return response.json();
     })
@@ -196,6 +203,7 @@ const Dashboard = () => {
                     currentValue={consumptionData["protein"]}
                     threshold={getGoalDataForType("protein").quantity}
                     showCircular={false}
+                    streak = {getGoalDataForType("protein").streak}
                     onAddGoal={() => handleAddGoal("protein")}
                   />
                 </div>
@@ -208,6 +216,7 @@ const Dashboard = () => {
                     currentValue={consumptionData["fat"]}
                     threshold={getGoalDataForType("fat").quantity}
                     showCircular={false}
+                    streak = {getGoalDataForType("fat").streak}
                     onAddGoal={() => handleAddGoal("fat")}
                   />
                 </div>
@@ -223,6 +232,7 @@ const Dashboard = () => {
                     currentValue={consumptionData["calorie"]}
                     threshold={getGoalDataForType("calorie").quantity}
                     showCircular={true}
+                    streak = {getGoalDataForType("calorie").streak}
                     onAddGoal={() => handleAddGoal("calorie")}
                   />
                 </div>
@@ -238,6 +248,7 @@ const Dashboard = () => {
                     currentValue={consumptionData["carb"]}
                     threshold={getGoalDataForType("carb").quantity}
                     showCircular={false}
+                    streak = {getGoalDataForType("carb").streak}
                     onAddGoal={() => handleAddGoal("carb")}
                   />
                 </div>
@@ -250,6 +261,7 @@ const Dashboard = () => {
                     currentValue={consumptionData["fiber"]}
                     threshold={getGoalDataForType("fiber").quantity}
                     showCircular={false}
+                    streak = {getGoalDataForType("fiber").streak}
                     onAddGoal={() => handleAddGoal("fiber")}
                   />
                 </div>
