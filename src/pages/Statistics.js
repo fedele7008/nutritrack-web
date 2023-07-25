@@ -39,14 +39,14 @@ function Statistics(props) {
         </Grid>
       </Grid>
       <Typography variant="h4" sx={{ fontWeight: '600' }} marginTop={2}>Restaurants</Typography>
-      <Grid container spacing={1} rowSpacing={1} width={"75%"} marginTop={1}>
+      {/* <Grid container spacing={1} rowSpacing={1} width={"75%"} marginTop={1}>
         <Grid item xs={5}>
           <LoggedFoodStatPie/>
         </Grid>
         <Grid item xs={7}>
           <AvgCaloriesStatBar/>
         </Grid>
-      </Grid>
+      </Grid> */}
     </Stack>
     
     // <div>
