@@ -2,7 +2,7 @@
 import NavBar from "./components/Navbar.js";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Dashboard from "./pages/Dashboard.js";
-import Restaurants from "./pages/Restaurants.js";
+import Statistics from "./pages/Statistics.js";
 import FoodLogs from "./pages/FoodLogs.js";
 import NotFound from "./pages/NotFound.js";
 import Login from "./pages/Login.js";
@@ -29,7 +29,7 @@ const App = () => {
             <NavBar />
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/restaurants" element={<Restaurants />} />
+              <Route path="/statistics" element={<Statistics />} />
               
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
