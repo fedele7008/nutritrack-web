@@ -16,7 +16,7 @@ import { NavLink } from "react-router-dom";
 import {useAuth} from "../hooks/Auth";
 
 const pages = [
-  { name: "Restaurants", link: "/restaurants" },
+  { name: "Statistics", link: "/restaurants" },
   { name: "Food logs", link: "/foodlogs" },
 ];
 const settings = ["Profile", "Account", "Logout"];

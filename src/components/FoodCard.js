@@ -9,7 +9,6 @@ import AddCircle from '@mui/icons-material/AddCircle';
 import Whatshot from '@mui/icons-material/Whatshot';
 
 export default function MultiActionAreaCard({foodItem, imageUrl}) {
-    console.log(foodItem)
   return (
     <Card sx={{ width: 345, m: 1.5 }}>
       <CardActionArea>
