@@ -28,10 +28,10 @@ const Dashboard = () => {
   const [newGoalValue, setNewGoalValue] = useState([]);
   const [selectedGoalType, setSelectedGoalType] = useState([]);
   const {cookies} = useAuth();
-  const userId = 17;
+  const userId = 1;
 
   const handleAddGoal = (goalType) => {
-    if (isNaN(userId)) {
+    if (isNaN(userId)) { // TODO: fix for any userid
       alert("Please sign in to set up your own goals.");
       return;
     }
@@ -135,8 +135,6 @@ const Dashboard = () => {
       setConsumptionData(data);
     });
   };
-  
-  
 
   useEffect(() => {
     fetchFoodData();
@@ -189,13 +187,13 @@ const Dashboard = () => {
   return (
     <div className = "dashboard">
       <Stack>
-      <div className = "user-goal" style={{ display:'flex', justifyContent:'center' }}>
-        <Card>
+      <div className = "user-goal" style={{ display:'flex', justifyContent:'center', marginTop: '20px', width:'100%' }}>
+        <Card sx={{ width: "90%", marginTop: "15px", marginBottom: "12px"}}>
           <CardContent>
             <Grid container spacing={2}>
               <Grid item xs={4} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                 <div>
-                  <Typography variant="h6" component="h2">
+                  <Typography variant="h6" component="h2" sx={{ textAlign: 'center' }}>
                     Protein
                   </Typography>
                   <GoalProgress
@@ -208,7 +206,7 @@ const Dashboard = () => {
                   />
                 </div>
                 <div>
-                  <Typography variant="h6" component="h2">
+                  <Typography variant="h6" component="h2" sx={{ textAlign: 'center' }}>
                     Fat
                   </Typography>
                   <GoalProgress
@@ -224,7 +222,7 @@ const Dashboard = () => {
 
               <Grid item xs={4} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <div>
-                  <Typography variant="h6" component="h2">
+                  <Typography variant="h6" component="h2" sx={{ textAlign: 'center' }}>
                     Calories
                   </Typography>
                   <GoalProgress
@@ -240,7 +238,7 @@ const Dashboard = () => {
 
               <Grid item xs={4} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                 <div>
-                  <Typography variant="h6" component="h2">
+                  <Typography variant="h6" component="h2" sx={{ textAlign: 'center' }}>
                     Carbs
                   </Typography>
                   <GoalProgress
@@ -253,7 +251,7 @@ const Dashboard = () => {
                   />
                 </div>
                 <div>
-                  <Typography variant="h6" component="h2">
+                  <Typography variant="h6" component="h2" sx={{ textAlign: 'center' }}>
                     Fiber
                   </Typography>
                   <GoalProgress

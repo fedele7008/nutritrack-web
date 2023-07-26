@@ -19,6 +19,18 @@ const App = () => {
     typography: {
       fontFamily: 'Montserrat, sans-serif', // Set your desired font family here
     },
+    palette: {
+      white: {
+        main: 'white',
+        // light: alpha(violetBase, 0.5),
+        // dark: alpha(violetBase, 0.9),
+        contrastText: '#000',
+      },
+      dark_green: {
+        main: '#15603C',
+        contrastText: '#fff',
+      },
+    },
   });
 
   return (
@@ -26,7 +38,7 @@ const App = () => {
       <UserProvider>
         <ThemeProvider theme={theme}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div className="App">
+            <div className="App" style={{ backgroundColor: '#E0EAD6'}}>
               <Routes>
                 <Route path="/" element={
                   <>

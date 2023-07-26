@@ -32,7 +32,6 @@ const Login = () => {
       {alert && <Alert severity="error" sx={{ padding: '10px', margin: '20px'}}>{alert}</Alert>}
       <Grid container justifyContent="center" alignItems="center" style={{
         height: "100vh",
-        background: "#E0EAD6"
       }}>        
         <Grid item xs={12} sm={6} md={4}>
         <Paper elevation={3} sx={{ padding: '20px', marginTop: '40px' }}>
