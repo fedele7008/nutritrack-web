@@ -312,8 +312,8 @@ function FoodLogs() {
             <DatePicker onChange={handleDateChange} />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleSubmit}>Add Log</Button>
+            <Button onClick={handleClose} sx={{ color: "#15603C" }}>Cancel</Button>
+            <Button onClick={handleSubmit} sx={{ color: "#15603C" }}>Add Log</Button>
           </DialogActions>
         </Box>
       </Modal>

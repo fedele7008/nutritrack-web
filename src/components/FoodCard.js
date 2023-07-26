@@ -38,7 +38,7 @@ export default function MultiActionAreaCard({foodItem, imageUrl}) {
       </CardActionArea>
       <CardActions>
       <Grid container justifyContent="flex-end">
-        <Button color="primary"><span style={{ marginRight: '8px' }}>Add to Log</span> <AddCircle /></Button>
+        <Button color="primary" sx={{ color: '#15603C', '&:hover': { backgroundColor: '#E0EAD6' } }}><span style={{ marginRight: '8px' }}>Add to Log</span> <AddCircle /></Button>
       </Grid>
       </CardActions>
     </Card>

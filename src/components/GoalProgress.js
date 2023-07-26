@@ -10,7 +10,7 @@ const GoalProgress = ({ name, currentValue, threshold, showCircular,streak,onAdd
     const progress = threshold === null ? 0 : (currentValue / threshold) * 100;
   
     return (
-      <Card sx={{ boxShadow: 'none', border: '1px'}}>
+      <Card sx={{ boxShadow: 'none'}}>
         <CardContent>
             <Box display="flex" alignItems="center" justifyContent="space-between">
                 <Typography component="subtitle" sx={{ fontWeight: 'medium' }}>
@@ -35,7 +35,7 @@ const GoalProgress = ({ name, currentValue, threshold, showCircular,streak,onAdd
           )}
           {threshold === null && (
           <div style={{ display: "flex", justifyContent: "center", marginTop: "8px" }}>
-            <Button variant="outlined" color="primary" onClick={onAddGoal}>
+            <Button variant="outlined" sx={{ borderColor: '#15603C', color: '#15603C', '&:hover': { backgroundColor: '#E0EAD6', borderColor: '#15603C' }}} onClick={onAddGoal}>
               Add Goal
             </Button>
           </div>
