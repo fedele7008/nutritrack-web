@@ -9,7 +9,7 @@ import NotFound from "./pages/NotFound.js";
 import Login from "./pages/Login.js";
 import Signup from "./pages/Signup.js";
 import { ProtectRoutes } from './hooks/ProtectRoutes.js';
-import {UserProvider} from "./hooks/Auth.js";
+import { UserProvider } from "./hooks/Auth.js";
 import { ThemeProvider, createTheme } from '@mui/material';
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -17,7 +17,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 const App = () => {
   const theme = createTheme({
     typography: {
-      fontFamily: 'Segoe UI, Roboto, sans-serif', // Set your desired font family here
+      fontFamily: 'Montserrat, sans-serif', // Set your desired font family here
     },
   });
 

@@ -26,15 +26,15 @@ const Login = () => {
         setPassword('');
       }
     }
-
+    
     return (
       <div>
       {alert && <Alert severity="error" sx={{ padding: '10px', margin: '20px'}}>{alert}</Alert>}
       <Grid container justifyContent="center">        
         <Grid item xs={12} sm={6} md={4}>
-          <Paper elevation={3} sx={{ padding: '20px', marginTop: '40px' }}>
+        <Paper elevation={3} sx={{ padding: '20px', marginTop: '40px' }}>
           <Typography variant="h5" align="center" gutterBottom>
-            <b>Welcome back!</b>
+            <b>Sign In</b>
           </Typography>
           {loginFailed && <Typography align="center" color="error">Login failed, please try again.</Typography>}
           <form onSubmit={handleLogin}>
@@ -58,12 +58,13 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               margin="normal"
             />
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-              Log In
+            <Button type="submit" variant="contained" color="primary" fullWidth sx={{ backgroundColor: '#15603C', "&:hover": {
+              backgroundColor: '#0E4028',}}}>
+              Sign In
             </Button>
           </form>
           <br />
-          <Typography align='center'>No account yet? <Link href="/signup" align="center">Sign up!</Link></Typography>
+          <Typography align='center'>Don't have an account yet? <Link href="/signup" align="center">Sign up!</Link></Typography>
           
           </Paper>
         </Grid>

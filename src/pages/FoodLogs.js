@@ -232,7 +232,7 @@ function FoodLogs() {
           sx={{ m: 3, marginLeft: "auto" }}
           variant="contained"
           onClick={handleClickOpen}>
-          Add new log
+          Set log
         </Button>
       </Toolbar>
 
