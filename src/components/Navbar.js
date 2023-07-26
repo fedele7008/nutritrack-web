@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useEffect} from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -17,18 +17,41 @@ import {useAuth} from "../hooks/Auth";
 import logo from "../nutritrack_logo.png";
 import { withTheme } from "@emotion/react";
 
-const pages = [
-  { name: "Statistics", link: "/statistics" },
-  { name: "Food logs", link: "/foodlogs" },
-  { name: "Admin", link: "/admin" }, // TODO: edit to only display for admins
-];
+
 const settings = ["Profile", "Account", "Logout"];
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [admin, setAdmin] = React.useState(false);
+  const [pages, setPages] = React.useState([
+    { name: "Statistics", link: "/statistics" },
+    { name: "Food logs", link: "/foodlogs" },
+     // TODO: edit to only display for admins
+  ])
 
-  const {cookies, logout} = useAuth();
+  const getAdmin = async () => {
+    let adminRes = await isAdmin();
+    if (!adminRes) {
+      setAdmin(false)
+    } else {
+      setAdmin(true)
+    }
+  }
+
+  useEffect(() => {
+    getAdmin()
+    if (admin) {
+      setPages([
+        { name: "Statistics", link: "/statistics" },
+        { name: "Food logs", link: "/foodlogs" },
+        { name: "Admin", link: "/admin" },
+      ])
+      console.log(pages)
+    }
+  },[])
+
+  const {cookies, logout, isAdmin} = useAuth();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
