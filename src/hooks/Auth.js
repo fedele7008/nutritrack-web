@@ -78,13 +78,25 @@ export const UserProvider = ({ children }) => {
         return Cookies.get("email");
     }
 
+    const isAdmin = async () => {
+        let res = await fetch("http://127.0.0.1:6608/is_admin", {
+            headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${cookies.token}`,
+            },
+        })    
+        res = await res.json()
+        return res.isAdmin;  
+    }  
+
     const value = useMemo(
         () => ({
             cookies,
             login,
             signup,
             logout,
-            loggedInUser
+            loggedInUser,
+            isAdmin
         }),
         [cookies]
     );    

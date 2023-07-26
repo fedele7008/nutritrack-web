@@ -16,8 +16,9 @@ import { NavLink } from "react-router-dom";
 import {useAuth} from "../hooks/Auth";
 
 const pages = [
-  { name: "Restaurants", link: "/restaurants" },
+  { name: "Statistics", link: "/statistics" },
   { name: "Food logs", link: "/foodlogs" },
+  { name: "Admin", link: "/admin" }, // TODO: edit to only display for admins
 ];
 const settings = ["Profile", "Account", "Logout"];
 

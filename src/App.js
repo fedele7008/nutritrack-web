@@ -2,8 +2,9 @@
 import NavBar from "./components/Navbar.js";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Dashboard from "./pages/Dashboard.js";
-import Restaurants from "./pages/Restaurants.js";
+import Statistics from "./pages/Statistics.js";
 import FoodLogs from "./pages/FoodLogs.js";
+import Admin from "./pages/Admin.js";
 import NotFound from "./pages/NotFound.js";
 import Login from "./pages/Login.js";
 import Signup from "./pages/Signup.js";
@@ -24,40 +25,23 @@ const App = () => {
     <BrowserRouter>
       <UserProvider>
         <ThemeProvider theme={theme}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div className="App">
-              <Routes>
-                <Route path="/" element={
-                  <>
-                    <NavBar />
-                    <Dashboard />
-                  </>
-                } />
-                <Route path="/restaurants" element={
-                  <>
-                    <NavBar />
-                    <Restaurants />
-                  </>
-                } />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/login" element={<Login />} />
-                <Route element={<ProtectRoutes />}>
-                  {/* These routes are protected by authentication */}
-                  <Route path="/foodlogs" element={
-                    <>
-                      <NavBar />
-                      <FoodLogs />
-                    </>
-                  } />
-                </Route>
-                <Route path="*" element={
-                  <>
-                    <NavBar />
-                    <NotFound />
-                  </>
-                } />
-              </Routes>
-            </div>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <div className = "App">
+            <NavBar />
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/statistics" element={<Statistics />} />
+              
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route element={ <ProtectRoutes /> }> 
+                {/* These routes are protected by authentication */}
+                <Route path="/foodlogs" element={<FoodLogs />} />
+                <Route path="/admin" element={<Admin />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
           </LocalizationProvider>
         </ThemeProvider>
       </UserProvider>

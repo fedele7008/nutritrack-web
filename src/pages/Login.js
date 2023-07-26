@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useAuth } from "../hooks/Auth";
-import { TextField, Button, Grid, Typography, Paper, Link } from '@mui/material';
+import { TextField, Button, Grid, Typography, Paper, Link, Alert } from '@mui/material';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loginFailed, setLoginFailed] = useState(false);
+    const [alert, setAlert] = useState('');
     const { login } = useAuth();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    useEffect(() => {
+      if (searchParams.get('alert')) {
+        setAlert(searchParams.get('alert'));
+      }
+    }, [])
 
     const handleLogin = async (event) => { 
       event.preventDefault(); // prevent page from refreshing
@@ -19,13 +28,9 @@ const Login = () => {
     }
     
     return (
-      <Grid container justifyContent="center" style={{
-        background: "#E0EAD6",
-        height: "100vh",
-        display: "flex",
-        alignItems: "center"
-      }}>
-        {/* <p>test</p> */}
+      <div>
+      {alert && <Alert severity="error" sx={{ padding: '10px', margin: '20px'}}>{alert}</Alert>}
+      <Grid container justifyContent="center">        
         <Grid item xs={12} sm={6} md={4}>
         <Paper elevation={3} sx={{ padding: '20px', marginTop: '40px' }}>
           <Typography variant="h5" align="center" gutterBottom>
@@ -64,6 +69,7 @@ const Login = () => {
           </Paper>
         </Grid>
       </Grid>
+      </div>
     );
 };
 
