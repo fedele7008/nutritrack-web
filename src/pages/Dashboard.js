@@ -62,7 +62,7 @@ const Dashboard = () => {
     };
   
     // Make a POST request to save the goal to the backend
-    fetch("http://localhost:6608/goal/", {
+    fetch("http://127.0.0.1:6608/goal/", {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {
@@ -73,7 +73,6 @@ const Dashboard = () => {
         return response.json();
       })
       .then((data) => {
-  
         // After saving the goal, close the dialog
         handleCloseDialog();
         fetchGoalData();
@@ -116,7 +115,7 @@ const Dashboard = () => {
 
   const fetchGoalData = () => {
     // Fetch the goal table from the backend
-    fetch(`http://localhost:6608/goal/user/${userId}`)
+    fetch(`http://127.0.0.1:6608/goal/user/${userId}`)
     .then((response) => {
       return response.json();
     })
@@ -127,7 +126,7 @@ const Dashboard = () => {
 
   const fetchConsumptionData = () => {
     // Fetch the goal table from the backend
-    fetch(`http://localhost:6608/log/consumption/${userId}`)
+    fetch(`http://127.0.0.1:6608/log/consumption/${userId}`)
     .then((response) => {
       return response.json();
     })
