@@ -25,23 +25,46 @@ const App = () => {
     <BrowserRouter>
       <UserProvider>
         <ThemeProvider theme={theme}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <div className = "App">
-            <NavBar />
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/statistics" element={<Statistics />} />
-              
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/login" element={<Login />} />
-              <Route element={ <ProtectRoutes /> }> 
-                {/* These routes are protected by authentication */}
-                <Route path="/foodlogs" element={<FoodLogs />} />
-                <Route path="/admin" element={<Admin />} />
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </div>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <div className="App">
+              <Routes>
+                <Route path="/" element={
+                  <>
+                    <NavBar />
+                    <Dashboard />
+                  </>
+                } />
+                <Route path="/statistics" element={
+                  <>
+                    <NavBar />
+                    <Statistics />
+                  </>
+                } />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
+                <Route element={<ProtectRoutes />}>
+                  {/* These routes are protected by authentication */}
+                  <Route path="/foodlogs" element={
+                  <>
+                    <NavBar />
+                    <FoodLogs />
+                  </>
+                } />
+                  <Route path="/admin" element={
+                  <>
+                    <NavBar />
+                    <Admin />
+                  </>
+                } />
+                </Route>
+                <Route path="*" element={
+                  <>
+                    <NavBar />
+                    <NotFound />
+                  </>
+                } />
+              </Routes>
+            </div>
           </LocalizationProvider>
         </ThemeProvider>
       </UserProvider>
