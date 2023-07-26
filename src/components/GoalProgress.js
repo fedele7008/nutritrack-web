@@ -10,7 +10,7 @@ const GoalProgress = ({ name, currentValue, threshold, showCircular,streak,onAdd
     const progress = threshold === null ? 0 : (currentValue / threshold) * 100;
   
     return (
-      <Card sx={{ boxShadow: 'none', border: '1px'}}>
+      <Card>
         <CardContent>
             <Box display="flex" alignItems="center" justifyContent="space-between">
                 <Typography component="subtitle" sx={{ fontWeight: 'medium' }}>
