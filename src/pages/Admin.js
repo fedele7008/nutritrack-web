@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import FoodModal from "../components/FoodModal";
 import RestaurantModal from "../components/RestaurantModal";
+import {useAuth} from "../hooks/Auth";
+import { useNavigate } from 'react-router-dom';
 
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -12,7 +14,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Toolbar } from "@mui/material";
-import {useAuth} from "../hooks/Auth";
+
 
 function Admin() {
   // TODO: make only accessible by admins
@@ -22,7 +24,9 @@ function Admin() {
   const [openNewRestaurant, setOpenNewRestaurant] = useState(false);
   const [openEditFood, setOpenEditFood] = useState(false);
   const [editingFood, setEditingFood] = useState({ name: "", restaurant_id: null, calories: null, fat: null, carb: null, fiber: null, protein: null});
-  const {cookies} = useAuth();
+  const [admin, setAdmin] = useState(true);
+  const {isAdmin} = useAuth();
+  const navigate = useNavigate();
 
   const handleClickFoodOpen = () => {
     setOpenNewFood(true);
@@ -71,14 +75,25 @@ function Admin() {
       });
   };
 
+  const getAdmin = async () => {
+    let adminRes = await isAdmin();
+    if (!adminRes) {
+      navigate("/login?alert=You must be an admin to view this page")
+    } else {
+      setAdmin(true)
+    }
+  }
+
   useEffect(() => {
+    getAdmin();
     fetchFoodItems();
     fetchRestaurants();
   }, [openNewFood, openEditFood]);
 
   return (
     <div>
-        <Typography variant="h4" align="center" sx={{ m: 3 }}><b>Admin Dashboard</b></Typography>
+      {admin && (<>
+      <Typography variant="h4" align="center" sx={{ m: 3 }}><b>Admin Dashboard</b></Typography>
       <Toolbar sx={{display: 'flex', justifyContent: 'flex-end'}}>   
         <Typography variant="h5" sx={{ marginRight: "auto" }}><b>Edit Food Items</b></Typography>     
         <Button
@@ -164,6 +179,7 @@ function Admin() {
       isOpen={openNewRestaurant}
       handleClose={handleRestaurantClose}
     />
+    </>)}
     </div>
   );
 }

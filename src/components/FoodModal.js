@@ -37,7 +37,7 @@ const FoodModal = ({isOpen, handleClose, type, title, buttonTitle, restaurants, 
         body: JSON.stringify(formInput),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": cookies.token,
+          "Authorization": `Bearer ${cookies.token}`,
         },
       })
         .then((response) => {
@@ -55,7 +55,7 @@ const FoodModal = ({isOpen, handleClose, type, title, buttonTitle, restaurants, 
         body: JSON.stringify(formInput),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": cookies.token,
+          "Authorization": `Bearer ${cookies.token}`,
         },
       })
         .then((response) => {

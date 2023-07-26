@@ -33,7 +33,7 @@ const RestaurantModal = ({isOpen, handleClose}) => {
     body: JSON.stringify({name: restaurantName}),
     headers: {
         "Content-Type": "application/json",
-        "Authorization": cookies.token,
+        "Authorization": `Bearer ${cookies.token}`,
     },
     })
     .then((response) => {
