@@ -20,6 +20,10 @@ const App = () => {
       fontFamily: 'Montserrat, sans-serif', // Set your desired font family here
     },
     palette: {
+      primary: {
+        main: '#15603C',
+        contrastText: '#fff',
+      },
       white: {
         main: 'white',
         // light: alpha(violetBase, 0.5),
@@ -30,6 +34,7 @@ const App = () => {
         main: '#15603C',
         contrastText: '#fff',
       },
+      
     },
   });
 

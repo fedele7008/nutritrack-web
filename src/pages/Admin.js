@@ -91,7 +91,7 @@ function Admin() {
   }, [openNewFood, openEditFood]);
 
   return (
-    <div>
+    <div style={{width: '90%', margin: 'auto'}}>
       {admin && (<>
       <Typography variant="h4" align="center" sx={{ m: 3 }}><b>Admin Dashboard</b></Typography>
       <Toolbar sx={{display: 'flex', justifyContent: 'flex-end'}}>   
