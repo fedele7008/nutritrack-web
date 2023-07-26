@@ -11,13 +11,12 @@ const colors = [
 ]
 
 export default function AvgCaloriesStatBar({}) {
-    const top_rank = 5
+    const top_rank = 3
     
     const [restaurants, setRestaurants] = useState([]);
     const [data, setData] = useState([]);
 
     const fetchAvgCaloriesStatBar = () => {
-        console.log('fetchAvgCaloriesStatBar')
         fetch('http://127.0.0.1:6608/stat/average-calories-per-restaurant/' + top_rank, {
             method: 'GET'
         })
