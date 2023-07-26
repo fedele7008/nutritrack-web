@@ -226,17 +226,17 @@ function FoodLogs() {
           </Grid>
         </Grid>
       </Paper>
-      <Toolbar>
+      <Toolbar sx={{ mx: "8px" }}>
         <Typography variant="h5">Log History</Typography>
         <Button
-          sx={{ m: 3, marginLeft: "auto" }}
+          sx={{ m: 3, marginLeft: "auto", backgroundColor: '#15603C', "&:hover": { backgroundColor: '#0E4028', }}}
           variant="contained"
           onClick={handleClickOpen}>
-          Add new log
+          Set log
         </Button>
       </Toolbar>
 
-      <Box style={{ textAlign: "center" }}>
+      <Box style={{ textAlign: "center", overflow: "auto" }}>
         {Object.keys(foodLogs).length == 0 && (
           <Typography variant="h7">
             No logs yet. Add some by clicking Add New Log!
@@ -248,7 +248,7 @@ function FoodLogs() {
               return new Date(date1) - new Date(date2);
             })
             .map((date) => (
-              <Accordion key={date}>
+              <Accordion key={date} style={{ margin: "20px 32px 20px 32px", borderRadius: "16px" }}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"

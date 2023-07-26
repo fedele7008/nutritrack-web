@@ -13,10 +13,10 @@ const Dashboard = () => {
   const [newGoalValue, setNewGoalValue] = useState([]);
   const [selectedGoalType, setSelectedGoalType] = useState([]);
   const {cookies} = useAuth();
-  const userId = 17;
+  const userId = 1;
 
   const handleAddGoal = (goalType) => {
-    if (isNaN(userId)) {
+    if (isNaN(userId)) { // TODO: fix for any userid
       alert("Please sign in to set up your own goals.");
       return;
     }
@@ -95,8 +95,6 @@ const Dashboard = () => {
       setConsumptionData(data);
     });
   };
-  
-  
 
   useEffect(() => {
     fetchGoalData();

@@ -4,9 +4,6 @@ import React from 'react';
 import { Card, CardContent, Typography, CircularProgress, LinearProgress, Button,Box } from '@mui/material';
 import { Whatshot } from '@mui/icons-material';
 
-// GoalProgress.js
-
-// ... existing imports ...
 
 const GoalProgress = ({ name, currentValue, threshold, showCircular,streak,onAddGoal }) => {
     // Calculate the progress percentage
@@ -16,7 +13,7 @@ const GoalProgress = ({ name, currentValue, threshold, showCircular,streak,onAdd
       <Card>
         <CardContent>
             <Box display="flex" alignItems="center" justifyContent="space-between">
-                <Typography variant="h6" component="h2">
+                <Typography component="subtitle" sx={{ fontWeight: 'medium' }}>
                     {name}
                     {streak > 0 && (
                         <Box component="span" ml={1}>
@@ -25,9 +22,9 @@ const GoalProgress = ({ name, currentValue, threshold, showCircular,streak,onAdd
                      )}
                     {streak > 0 ? streak : ""}
                 </Typography>
-                <Typography color="textSecondary">
+                {threshold && <Typography color="textSecondary">
                     {currentValue} / {threshold === null ? "N/A" : threshold}
-                </Typography>
+                </Typography>}
             </Box>
             {showCircular ? (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
