@@ -11,6 +11,7 @@ import Modal from "@mui/material/Modal";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Grid from "@mui/material/Grid";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -20,7 +21,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Toolbar } from "@mui/material";
-import {useAuth} from "../hooks/Auth";
+import { useAuth } from "../hooks/Auth";
+import UserChart from "../components/UserChart";
 
 const modalBoxStyle = {
   position: "absolute",
@@ -37,9 +39,12 @@ const modalBoxStyle = {
 function FoodLogs() {
   const [foodLogs, setFoodLogs] = useState([]);
   const [foodItems, setFoodItems] = useState([]);
+  const [foodStatLabels, setFoodStatLabels] = useState([]);
+  const [calorieDatasets, setCalorieDatasets] = useState([]);
+  const [foodStatDatasets, setFoodStatDatasets] = useState([]);
   const [open, setOpen] = useState(false);
   const [formInput, setFormInput] = useState({ foodItem: "", date: "" });
-  const {cookies} = useAuth();
+  const { cookies } = useAuth();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -52,12 +57,13 @@ function FoodLogs() {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    let data = { ...formInput, user_id: cookies.id };
+    let data = { ...formInput };
     fetch("http://localhost:6608/log/", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${cookies.token}`,
       },
     })
       .then((response) => {
@@ -65,6 +71,7 @@ function FoodLogs() {
       })
       .then((data) => {
         fetchFoodLogs();
+        fetchUserStats();
         handleClose();
       })
       .catch((error) => console.error("Error:", error));
@@ -82,7 +89,12 @@ function FoodLogs() {
   };
 
   const fetchFoodItems = () => {
-    fetch("http://127.0.0.1:6608/food/")
+    fetch("http://127.0.0.1:6608/food/", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    })
       .then((response) => {
         return response.json();
       })
@@ -93,19 +105,77 @@ function FoodLogs() {
 
   const setOrganizedFoodLogs = (foodLogs) => {
     let foodLogDates = {};
-    foodLogs.forEach((foodLog) => {
-      const date = new Date(foodLog[0].created_at).toDateString();
-      if (!foodLogDates[date]) {
-        foodLogDates[date] = [foodLog[1]];
-      } else {
-        foodLogDates[date].push(foodLog[1]);
-      }
-    });
+    if (foodLogs) {
+      foodLogs.forEach((foodLog) => {
+        const date = new Date(foodLog[0].created_at).toDateString();
+        if (!foodLogDates[date]) {
+          foodLogDates[date] = [foodLog[1]];
+        } else {
+          foodLogDates[date].push(foodLog[1]);
+        }
+      });
+    }
     setFoodLogs(foodLogDates);
   };
 
+  const setOrganizedFoodStats = (foodStats) => {
+    let labels = [];
+    let calorieCounts = {
+      label: "Calories",
+      data: [],
+      backgroundColor: "#166a8f",
+      borderColor: "#166a8f",
+    };
+    let carbCounts = {
+      label: "Carbohydrates",
+      data: [],
+      backgroundColor: "#acc236",
+      borderColor: "#acc236",
+    };
+    let fatCounts = {
+      label: "Fat",
+      data: [],
+      backgroundColor: "#58595b",
+      borderColor: "#58595b",
+    };
+    let fiberCounts = {
+      label: "Fiber",
+      data: [],
+      backgroundColor: "#8549ba",
+      borderColor: "#8549ba",
+    };
+    let proteinCounts = {
+      label: "Protein",
+      data: [],
+      backgroundColor: "#f67019",
+      borderColor: "#f67019",
+    };
+    foodStats.forEach((foodStat) => {
+      const api_date = new Date(foodStat.date);
+      // for some reason, JS made the date one day behind, so add one day to correct this.
+      var day = 60 * 60 * 24 * 1000;
+      const date = new Date(api_date.getTime() + day).toDateString();
+      labels.push(date);
+      calorieCounts.data.push(foodStat.calorieCount);
+      carbCounts.data.push(foodStat.carbCount);
+      fatCounts.data.push(foodStat.fatCount);
+      fiberCounts.data.push(foodStat.fiberCount);
+      proteinCounts.data.push(foodStat.proteinCount);
+    });
+    console.log(labels);
+    setFoodStatLabels(labels);
+    const datasets = [carbCounts, fatCounts, fiberCounts, proteinCounts];
+    setCalorieDatasets([calorieCounts]);
+    setFoodStatDatasets(datasets);
+  };
+
   const fetchFoodLogs = () => {
-    fetch("http://127.0.0.1:6608/log/")
+    fetch("http://127.0.0.1:6608/log/", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    })
       .then((response) => {
         return response.json();
       })
@@ -113,15 +183,51 @@ function FoodLogs() {
         setOrganizedFoodLogs(data);
       });
   };
+
+  const fetchUserStats = () => {
+    fetch("http://127.0.0.1:6608/log/stats", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setOrganizedFoodStats(data);
+      });
+  };
+
   useEffect(() => {
     fetchFoodLogs();
     fetchFoodItems();
+    fetchUserStats();
   }, []);
 
   return (
     <div>
+      <Paper
+        style={{
+          padding: 32,
+          margin: 32,
+        }}
+        elevation={1}>
+        <Typography variant="h5" style={{ marginBottom: 16 }}>
+          Personal History
+        </Typography>
+        <Grid container spacing={2} columns={16}>
+          <Grid item xs={8}>
+            <UserChart labels={foodStatLabels} datasets={foodStatDatasets} />
+          </Grid>
+          <Grid item xs={8}>
+            <UserChart labels={foodStatLabels} datasets={calorieDatasets} />
+          </Grid>
+        </Grid>
+      </Paper>
       <Toolbar>
-        <Typography variant="h5">My Logs</Typography>
+        <Typography variant="h5">Log History</Typography>
         <Button
           sx={{ m: 3, marginLeft: "auto" }}
           variant="contained"
@@ -130,58 +236,64 @@ function FoodLogs() {
         </Button>
       </Toolbar>
 
-      {Object.keys(foodLogs).length > 0 &&
-        Object.keys(foodLogs)
-          .sort((date1, date2) => {
-            return new Date(date1) - new Date(date2);
-          })
-          .map((date) => (
-            <Accordion key={date}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header">
-                <Typography>{date}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell align="right">Calories</TableCell>
-                        <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                        <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                        <TableCell align="right">Protein&nbsp;(g)</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {foodLogs[date].map((foodLog) => (
-                        <TableRow
-                          key={foodLog.id}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}>
-                          <TableCell component="th" scope="row">
-                            {foodLog.name}
-                          </TableCell>
-                          <TableCell align="right">
-                            {foodLog.calories}
-                          </TableCell>
-                          <TableCell align="right">{foodLog.fat}</TableCell>
-                          <TableCell align="right">{foodLog.carbs}</TableCell>
-                          <TableCell align="right">{foodLog.protein}</TableCell>
+      <Box style={{ textAlign: "center" }}>
+        {Object.keys(foodLogs).length == 0 && (
+          <Typography variant="h7">
+            No logs yet. Add some by clicking Add New Log!
+          </Typography>
+        )}
+        {Object.keys(foodLogs).length > 0 &&
+          Object.keys(foodLogs)
+            .sort((date1, date2) => {
+              return new Date(date1) - new Date(date2);
+            })
+            .map((date) => (
+              <Accordion key={date}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header">
+                  <Typography>{date}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Name</TableCell>
+                          <TableCell align="right">Calories</TableCell>
+                          <TableCell align="right">Fat&nbsp;(g)</TableCell>
+                          <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                          <TableCell align="right">Protein&nbsp;(g)</TableCell>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                {/* <Typography>
-                {foodLogs.map((food_log) => food_log.name)}
-              </Typography> */}
-              </AccordionDetails>
-            </Accordion>
-          ))}
+                      </TableHead>
+                      <TableBody>
+                        {foodLogs[date].map((foodLog) => (
+                          <TableRow
+                            key={foodLog.id}
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}>
+                            <TableCell component="th" scope="row">
+                              {foodLog.name}
+                            </TableCell>
+                            <TableCell align="right">
+                              {foodLog.calories}
+                            </TableCell>
+                            <TableCell align="right">{foodLog.fat}</TableCell>
+                            <TableCell align="right">{foodLog.carbs}</TableCell>
+                            <TableCell align="right">
+                              {foodLog.protein}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </AccordionDetails>
+              </Accordion>
+            ))}
+      </Box>
 
       <Modal open={open} onClose={handleClose}>
         <Box sx={modalBoxStyle}>
