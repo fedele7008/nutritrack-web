@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Autocomplete, TextField, Select, MenuItem, Stack, IconButton, Container, Grid, Card, CardContent, Typography, Box, Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -24,39 +24,33 @@ const Dashboard = () => {
   const [goalData, setGoalData] = useState([]);
   const [consumptionData, setConsumptionData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [newGoalName, setGoalName] = useState([]);
-  const [newGoalValue, setNewGoalValue] = useState([]);
-  const [selectedGoalType, setSelectedGoalType] = useState([]);
+  const newGoalNameRef = useRef();
+  const newGoalValueRef = useRef();
+  const selectedGoalTypeRef = useRef();
   const {cookies} = useAuth();
-  const userId = 1;
 
   const handleAddGoal = (goalType) => {
-    if (isNaN(userId)) { // TODO: fix for any userid
-      alert("Please sign in to set up your own goals.");
-      return;
-    }
-    setSelectedGoalType(goalType);
+    selectedGoalTypeRef.current = goalType;
     setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    setNewGoalValue("");
-    setGoalName("");
+    newGoalValueRef.current = "";
+    newGoalNameRef.current = "";
   };
 
   const handleSaveGoal = () => {
-    const parsedGoalValue = parseInt(newGoalValue);
+    const parsedGoalValue = parseInt(newGoalValueRef.current);
     if (isNaN(parsedGoalValue) || parsedGoalValue <= 0) {
-      alert("Please enter a positive integer for the goal value.");
+      alert("Please enter a positive integer for the goal value." + parsedGoalValue);
       return;
     }
   
     // Create the payload to send to the server
     const payload = {
-      user_id: userId,
-      name: newGoalName,
-      goal_type: selectedGoalType,
+      name: newGoalNameRef.current,
+      goal_type: selectedGoalTypeRef.current,
       quantity: parsedGoalValue,
       streak: 0, 
     };
@@ -67,6 +61,7 @@ const Dashboard = () => {
       body: JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${cookies.token}`
       },
     })
       .then((response) => {
@@ -79,14 +74,19 @@ const Dashboard = () => {
       })
       .catch((error) => {
         console.error("Error saving goal:", error);
-        alert("Error saving goal. Please try again later.");
+        alert("Error saving goal. Make sure you are signed in");
       });
   };
   
 
   const getGoalDataForType = (goalType) => {
-    const goal = goalData.find((goal) => goal.goal_type === goalType);
-    return goal ? goal : { goal_type: goalType, name: 'Set your goal', quantity: null };
+    try {
+      const goal = goalData.find((goal) => goal.goal_type === goalType);
+      return goal ? goal : { goal_type: goalType, name: 'Set your goal', quantity: null };
+    }
+    catch(err) {
+      return { goal_type: goalType, name: 'Set your goal', quantity: null };
+    }
   };
 
   const changeSortBy = (e) => {
@@ -115,7 +115,12 @@ const Dashboard = () => {
 
   const fetchGoalData = () => {
     // Fetch the goal table from the backend
-    fetch(`http://127.0.0.1:6608/goal/user/${userId}`)
+    fetch("http://127.0.0.1:6608/goal/", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    })
     .then((response) => {
       return response.json();
     })
@@ -125,8 +130,12 @@ const Dashboard = () => {
   };
 
   const fetchConsumptionData = () => {
-    // Fetch the goal table from the backend
-    fetch(`http://127.0.0.1:6608/log/consumption/${userId}`)
+    fetch("http://127.0.0.1:6608/log/consumption", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    })
     .then((response) => {
       return response.json();
     })
@@ -371,14 +380,14 @@ const Dashboard = () => {
           <DialogContent>
           <TextField
               label="New Goal Name"
-              value={newGoalName}
-              onChange={(e) => setGoalName(e.target.value)}
+              inputRef={newGoalNameRef}
+              onChange={(e) => (newGoalNameRef.current = e.target.value)}
               fullWidth
             />
             <TextField
               label="New Goal Value"
-              value={newGoalValue}
-              onChange={(e) => setNewGoalValue(e.target.value)}
+              inputRef={newGoalValueRef}
+              onChange={(e) => (newGoalValueRef.current = e.target.value)}
               fullWidth
             />
           </DialogContent>
