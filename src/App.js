@@ -4,6 +4,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Dashboard from "./pages/Dashboard.js";
 import Statistics from "./pages/Statistics.js";
 import FoodLogs from "./pages/FoodLogs.js";
+import Admin from "./pages/Admin.js";
 import NotFound from "./pages/NotFound.js";
 import Login from "./pages/Login.js";
 import Signup from "./pages/Signup.js";
@@ -36,6 +37,7 @@ const App = () => {
               <Route element={ <ProtectRoutes /> }> 
                 {/* These routes are protected by authentication */}
                 <Route path="/foodlogs" element={<FoodLogs />} />
+                <Route path="/admin" element={<Admin />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
