@@ -121,14 +121,14 @@ export default function MultiActionAreaCard({ foodItem, imageUrl }) {
           <Typography variant="h6">Add new log</Typography>
           <DialogContent>
             <Autocomplete
+              disablePortal
               options={[foodItem.food_name]}
               id="readOnly"
               readOnly
-              sx={{ width: 300 }}
+              variant="outlined"
+              sx={{ width: 300, marginBottom: 2 }}
               defaultValue={foodItem.food_name}
-              renderInput={(params) => (
-                <TextField {...params} label="Food" variant="standard" />
-              )}
+              renderInput={(params) => <TextField {...params} label="Food" />}
             />
             <DatePicker onChange={handleDateChange} />
           </DialogContent>

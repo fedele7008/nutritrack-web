@@ -229,7 +229,12 @@ function FoodLogs() {
       <Toolbar sx={{ mx: "8px" }}>
         <Typography variant="h5">Log History</Typography>
         <Button
-          sx={{ m: 3, marginLeft: "auto", backgroundColor: '#15603C', "&:hover": { backgroundColor: '#0E4028', }}}
+          sx={{
+            m: 3,
+            marginLeft: "auto",
+            backgroundColor: "#15603C",
+            "&:hover": { backgroundColor: "#0E4028" },
+          }}
           variant="contained"
           onClick={handleClickOpen}>
           Set log
@@ -248,7 +253,9 @@ function FoodLogs() {
               return new Date(date1) - new Date(date2);
             })
             .map((date) => (
-              <Accordion key={date} style={{ margin: "20px 32px 20px 32px", borderRadius: "16px" }}>
+              <Accordion
+                key={date}
+                style={{ margin: "20px 32px 20px 32px", borderRadius: "16px" }}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
@@ -305,7 +312,7 @@ function FoodLogs() {
               options={foodItems}
               getOptionLabel={(foodItem) => foodItem.food_name}
               isOptionEqualToValue={(option, value) => option.id === value.id}
-              sx={{ width: 300 }}
+              sx={{ width: 300, marginBottom: 2 }}
               onChange={handleChange}
               renderInput={(params) => <TextField {...params} label="Food" />}
             />
