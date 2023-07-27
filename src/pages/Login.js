@@ -29,10 +29,13 @@ const Login = () => {
     
     return (
       <div>
-      {alert && <Alert severity="error" sx={{ padding: '10px', margin: '20px'}}>{alert}</Alert>}
+      
       <Grid container justifyContent="center" alignItems="center" style={{
         height: "100vh",
-      }}>        
+      }}>   
+      <Grid item xs={12} sm={12} md={12}>   
+      {alert && <Alert severity="error" sx={{ padding: '10px', margin: '30px'}}>{alert}</Alert>}
+      </Grid>  
         <Grid item xs={12} sm={6} md={4}>
         <Paper elevation={3} sx={{ padding: '20px', marginTop: '40px' }}>
           <Typography variant="h5" align="center" gutterBottom>

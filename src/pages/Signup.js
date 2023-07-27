@@ -91,6 +91,7 @@ const Login = () => {
               label="Confirm Password"
               variant="outlined"
               type="password"
+              required
               fullWidth
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
