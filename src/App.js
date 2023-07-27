@@ -22,6 +22,7 @@ const App = () => {
     palette: {
       primary: {
         main: '#15603C',
+        light: '#A6C2B4',
         contrastText: '#fff',
       },
       white: {

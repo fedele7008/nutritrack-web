@@ -39,7 +39,6 @@ const Dashboard = () => {
   
     // Create the payload to send to the server
     const payload = {
-      user_id: userId,
       name: newGoalName,
       goal_type: selectedGoalType,
       quantity: parsedGoalValue,
@@ -52,6 +51,7 @@ const Dashboard = () => {
       body: JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${cookies.token}`
       },
     })
       .then((response) => {
@@ -76,7 +76,12 @@ const Dashboard = () => {
 
   const fetchGoalData = () => {
     // Fetch the goal table from the backend
-    fetch(`http://127.0.0.1:6608/goal/user/${userId}`)
+    fetch(`http://127.0.0.1:6608/goal/user`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${cookies.token}`
+      },
+    })
     .then((response) => {
       return response.json();
     })
@@ -87,7 +92,12 @@ const Dashboard = () => {
 
   const fetchConsumptionData = () => {
     // Fetch the goal table from the backend
-    fetch(`http://127.0.0.1:6608/log/consumption/${userId}`)
+    fetch(`http://127.0.0.1:6608/log/consumption`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${cookies.token}`
+      },
+    })
     .then((response) => {
       return response.json();
     })
@@ -97,17 +107,19 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetchGoalData();
-    fetchConsumptionData();
+    if (cookies.token) {
+      fetchGoalData();
+      fetchConsumptionData();
+    }
   }, []);
 
   return (
     <div className = "dashboard">
       <Stack>
-        <div className = "user-goal" style={{ display:'flex', justifyContent:'center' }}>
-          <Card>
+        <div className = "user-goal" style={{ display:'flex', justifyContent:'center', marginTop: '20px', width:'100%'}}>
+          <Card sx={{ width: "90%", marginTop: "15px", marginBottom: "12px"}}>
             <CardContent>
-              <Grid container spacing={2}>
+              {cookies.token ? <Grid container spacing={2}>
                 <Grid item xs={4} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                   <div>
                     <Typography variant="h6" component="h2">
@@ -181,7 +193,7 @@ const Dashboard = () => {
                     />
                   </div>
                 </Grid>
-              </Grid>
+              </Grid> : <Typography variant="h6" component="h2" sx={{ textAlign: 'center', fontWeight: "bold" }}>Sign in to set and view goals!</Typography>}
             </CardContent>
           </Card>
         </div>

@@ -28,7 +28,29 @@ const GoalProgress = ({ name, currentValue, threshold, showCircular,streak,onAdd
             </Box>
             {showCircular ? (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <CircularProgress variant="determinate" value={progress} size={150} thickness={5} />
+                      <Box sx={{ position: 'relative' }}>
+              <CircularProgress
+                variant="determinate"
+                size={150}
+                sx={{
+                  color: 'primary.light',
+                }}
+                thickness={5}
+                value={100}
+              />
+              <CircularProgress
+                variant="determinate"
+                value={progress}
+                disableShrink
+                size={150}
+                thickness={5}
+                sx={{
+                  color: 'primary',
+                  position: 'absolute',
+                  left: 0,
+                }}
+              />
+            </Box>
             </div>
           ) : (
             <LinearProgress variant="determinate" value={progress} />

@@ -32,6 +32,7 @@ function NavBar() {
 
   const getAdmin = async () => {
     let adminRes = await isAdmin();
+    // console.log("adminRes", adminRes)
     if (!adminRes) {
       setAdmin(false)
     } else {
@@ -49,7 +50,7 @@ function NavBar() {
       ])
       console.log(pages)
     }
-  },[])
+  },[admin])
 
   const {cookies, logout, isAdmin} = useAuth();
 
