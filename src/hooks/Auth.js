@@ -54,9 +54,6 @@ export const UserProvider = ({ children }) => {
                 // Signup successful, do something                
                 console.log('Signup successful', result);
                 setCookies('token', result.access_token); // your token
-                setCookies('email', email)
-                setCookies('id', result.id);
-                setCookies('name', name);
                 navigate('/foodlogs');
             } else {
                 // Signup failed, handle the error
